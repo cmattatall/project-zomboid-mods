@@ -42,7 +42,7 @@ def prepend_package_decl_to_java_source_file( java_source_file_abspath : str):
         
         JAVA_PACKAGE_DECLARATION_REGEX = get_package_keyword_regex()
         if not JAVA_PACKAGE_DECLARATION_REGEX in source_file_contents:
-            print(f"file: {java_source_file_abspath} does not contain a package declaration!") # debug
+            # print(f"file: {java_source_file_abspath} does not contain a package declaration!") # debug
             source_file.close()
             with open(java_source_file_abspath, "w") as source_file_missing_package_decl:
                 source_file_contents_with_pkg_decl = f"package {packageName};\n" + source_file_contents
@@ -65,7 +65,7 @@ def prepend_package_import_to_java_source_file( java_source_file_abspath : str, 
             for line in source_file_lines:
                 match = re.search("package[ \t]([^ \t]+);", line)
                 if match != None:
-                    print(f"match.group():{match.group()}")
+                    # print(f"match.group():{match.group()}") # debug
                     new_source_file_contents = new_source_file_contents.replace(line, line + f"\nimport {import_name};")
             source_file.write(new_source_file_contents) 
 
@@ -107,7 +107,7 @@ def get_nested_class_source_files(java_source_file_abspath : str):
         filePath = pathlib.Path(pathStr)
         fileName = filePath.name
         if re.match(NESTED_CLASS_GLOB_PATTERN, fileName):
-            print(f"file:{fileName} matches {NESTED_CLASS_GLOB_PATTERN}") # debug
+            # print(f"file:{fileName} matches {NESTED_CLASS_GLOB_PATTERN}") # debug
             nested_class_path_abs = str(java_source_file_parent_dir/filePath)
             nested_class_source_files.append(nested_class_path_abs)
 
@@ -117,7 +117,7 @@ def fix_nested_class_imports(java_source_file_abspath : str):
     nested_class_source_files = get_nested_class_source_files(java_source_file_abspath)
 
     source_file_alias_path = java_source_file_abspath.replace(".java", "$1.java")
-    print(f"source_file_alias_path:{source_file_alias_path}")
+    # print(f"source_file_alias_path:{source_file_alias_path}") # debug
     if os.path.exists(source_file_alias_path):
         os.remove(source_file_alias_path)
 
@@ -159,7 +159,6 @@ def decompile_class_file(class_file_path : str, pz_install_root : str):
     os.system(f"java -jar \"{get_decompiler_path()}\" \"{class_file_path}\" \"{java_source_output_path}\" ")
 
     fix_java_source_file(java_source_output_path)
-    return str(java_source_output_path)
 
 
 def fix_java_source_file_name(java_source_file_path : str):
@@ -168,7 +167,7 @@ def fix_java_source_file_name(java_source_file_path : str):
     sourcefile_name = java_source_path_obj.name
     new_source_name = sourcefile_name.split("$")[-1]
     new_sourcefile_path = output_source_dir/pathlib.Path(new_source_name)
-    print(f"renaming {java_source_file_path} -> {new_sourcefile_path}") # Debug
+    # print(f"renaming {java_source_file_path} -> {new_sourcefile_path}") # Debug
 
     if os.path.exists(new_sourcefile_path):
         os.remove(new_sourcefile_path)
