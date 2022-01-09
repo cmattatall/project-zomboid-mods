@@ -24,7 +24,7 @@ public class App {
         MyPrinter printer = new MyPrinter();
         decompiler.decompile(loader, printer, inputJavaClassPath);
         String source = printer.toString();
-        System.out.println("SOURCE CODE DECOMPILED FROM: " + inputJavaClassPath + "\n");
+        //System.out.println("SOURCE CODE DECOMPILED FROM: " + inputJavaClassPath + "\n");
         // System.out.println(source); //debug
         writeJavaSourceFile(source, outputJavaSourcePath);
     }
