@@ -187,5 +187,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
     installedPZdir = args.PZ_install_root
 
-    for class_file in pathlib.Path(installedPZdir).rglob('RecipeManager*.class'):
+    for class_file in pathlib.Path(installedPZdir).rglob('*.class'):
         decompile_class_file(class_file, installedPZdir)
